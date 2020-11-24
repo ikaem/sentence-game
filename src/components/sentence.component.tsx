@@ -1,10 +1,24 @@
-import React from "react";
+// src\components\sentence.component.tsx
 
-const Sentence = () => {
+interface SentenceProps {
+  sentence: string;
+  isNotComplete?: boolean;
+}
+
+const Sentence: React.FC<SentenceProps> = ({ sentence, isNotComplete }) => {
   return (
-    <section>
+    <section data-test="component-sentence">
       <h2>Your sentence:</h2>
-      <p>Who did what, when did they do it, and why</p>
+      <p>
+        <span className="sentence-actual" data-test="sentence-span">
+          {sentence}
+        </span>
+        {isNotComplete && (
+          <span className="sentence" data-test="elipsis-span">
+            ...
+          </span>
+        )}
+      </p>
     </section>
   );
 };

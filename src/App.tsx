@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <Header />
-      <Answer />
+      <Answer question={"what"} answer={""} />
       <div>
         <DirectionButton />
         <DirectionButton />

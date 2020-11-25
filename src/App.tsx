@@ -21,6 +21,10 @@ const App = () => {
     if (questionIndex === 3) return;
     setQuestionIndex((prevState) => prevState + 1);
   };
+
+  const handleDecrementQuestion = () => {
+    setQuestionIndex((prevState) => prevState - 1);
+  };
   return (
     <div data-test="component-app">
       <p data-test="test-paragraph">{question}</p>
@@ -34,8 +38,8 @@ const App = () => {
       <div>
         <DirectionButton
           label={"Go Back"}
-          isNotRendered={false}
-          onNavigateQuestions={() => {}}
+          isNotRendered={questionIndex <= 0}
+          onNavigateQuestions={handleDecrementQuestion}
         />
         <DirectionButton
           label={"Next Question"}

@@ -15,6 +15,10 @@ const App = () => {
   const { question, answer } = useSelector((state: RootStateType) => {
     return state.questions[questionIndex];
   });
+
+  const handleIncrementQuestion = () => {
+    setQuestionIndex((prevState) => prevState + 1);
+  };
   return (
     <div data-test="component-app">
       <p data-test="test-paragraph">{question}</p>
@@ -30,7 +34,7 @@ const App = () => {
           label={"Next Question"}
           isNotRendered={false}
           isInvalidInput={false}
-          onNavigateQuestions={() => {}}
+          onNavigateQuestions={handleIncrementQuestion}
         />
         <DirectionButton
           label={"Go Back"}

@@ -7,12 +7,12 @@ export type setAnswerActionType = {
   payload: string;
 };
 
-export const setAnswer = (
+export const setAnswerAction = (
   type: ANSWER_TYPE,
   answer: string
 ): setAnswerActionType => {
   return {
-    type,
+    type: type,
     payload: answer,
   };
 };

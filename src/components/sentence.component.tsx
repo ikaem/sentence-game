@@ -2,7 +2,7 @@
 
 interface SentenceProps {
   sentence: string;
-  isNotComplete?: boolean;
+  isNotComplete: boolean;
 }
 
 const Sentence: React.FC<SentenceProps> = ({ sentence, isNotComplete }) => {

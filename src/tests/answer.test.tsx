@@ -41,4 +41,21 @@ describe("Answer", () => {
 
     expect(input.prop("value")).toBe(props.answer);
   });
+
+  test("calls 'onHandleChange' when typing inside the input", () => {
+    const mockEvent = {
+      target: {
+        value: "Mark",
+      },
+    };
+    const props = {
+      onHandleChange: jest.fn(),
+    };
+
+    const wrapper = setup(defaultProps, props);
+    const input = wrapper.find("input");
+    input.simulate("change", mockEvent);
+
+    expect(props.onHandleChange).toHaveBeenCalledWith(mockEvent);
+  });
 });

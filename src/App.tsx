@@ -9,6 +9,7 @@ import Header from "./components/header.component";
 import Sentence from "./components/sentence.component";
 
 import { RootStateType } from "./store/index";
+import questionsReducer from "./store/reducers/questions.reducer";
 
 const App = () => {
   const [questionIndex, setQuestionIndex] = React.useState(0);
@@ -17,6 +18,7 @@ const App = () => {
   });
 
   const handleIncrementQuestion = () => {
+    if (questionIndex === 3) return;
     setQuestionIndex((prevState) => prevState + 1);
   };
   return (
@@ -31,15 +33,15 @@ const App = () => {
       />
       <div>
         <DirectionButton
-          label={"Next Question"}
-          isNotRendered={false}
-          isInvalidInput={false}
-          onNavigateQuestions={handleIncrementQuestion}
-        />
-        <DirectionButton
           label={"Go Back"}
           isNotRendered={false}
           onNavigateQuestions={() => {}}
+        />
+        <DirectionButton
+          label={"Next Question"}
+          isNotRendered={questionIndex >= 3}
+          isInvalidInput={false}
+          onNavigateQuestions={handleIncrementQuestion}
         />
       </div>
       <Sentence sentence={"What is where"} isNotComplete={true} />

@@ -9,11 +9,6 @@ import { storeFactory } from "../../testing/test-utils";
 
 const setup = (questionIndex = 0, inputValue = "") => {
   const store = storeFactory();
-  const mockUseState = jest
-    .fn()
-    .mockReturnValueOnce([questionIndex, jest.fn()])
-    .mockReturnValueOnce([inputValue, jest.fn()]);
-  React.useState = mockUseState;
 
   return mount(
     <Provider store={store}>
@@ -23,13 +18,6 @@ const setup = (questionIndex = 0, inputValue = "") => {
 };
 
 describe("Application", () => {
-  let useState = React.useState;
-  let wrapper: ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>;
-
-  afterEach(() => {
-    React.useState = useState;
-  });
-
   test("renders 'what' question when 'Next Question' button clicked first time", (done) => {
     const wrapper = setup();
     const button = wrapper.findWhere(
@@ -42,8 +30,56 @@ describe("Application", () => {
 
     setImmediate(() => {
       wrapper.update();
-      // const testParagraph = wrapper.find("[data-test='test-paragraph']");
-      // expect(testParagraph.prop("children")).toBe("what");
+      const testParagraph = wrapper.find("[data-test='test-paragraph']");
+      expect(testParagraph.text()).toBe("what");
+      done();
+    });
+  });
+
+  test("renders 'when' question when 'Next Question' button clicked second time", (done) => {
+    const wrapper = setup();
+
+    const button = wrapper.findWhere(
+      (element) =>
+        element.type() === "button" &&
+        element.prop("children") === "Next Question"
+    );
+
+    // reaching point before the tested click
+    for (let i = 0; i < 1; i++) {
+      button.simulate("click");
+    }
+
+    button.simulate("click");
+
+    setImmediate(() => {
+      wrapper.update();
+      const testParagraph = wrapper.find("[data-test='test-paragraph']");
+      expect(testParagraph.text()).toBe("when");
+      done();
+    });
+  });
+
+  test("clicking on 'Next Question' disables Next button AND keeps the question on 'where' when current question index is 3", (done) => {
+    const wrapper = setup();
+
+    const button = wrapper.findWhere(
+      (element) =>
+        element.type() === "button" &&
+        element.prop("children") === "Next Question"
+    );
+
+    // reaching point before the tested click
+    for (let i = 0; i < 4; i++) {
+      button.simulate("click");
+    }
+
+    button.simulate("click");
+
+    setImmediate(() => {
+      wrapper.update();
+      const testParagraph = wrapper.find("[data-test='test-paragraph']");
+      expect(testParagraph.text()).toBe("where");
       done();
     });
   });

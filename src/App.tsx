@@ -10,7 +10,7 @@ import Sentence from "./components/sentence.component";
 
 import { RootStateType } from "./store/index";
 import assembleSentence from "./helpers/assemble-sentence";
-import { setAnswerAction, ANSWER_TYPE } from "./store/actions/answer.actions";
+import { setAnswerAction, ANSWER_TYPE } from "./store/actions/questions.actions";
 
 const App = () => {
   const [questionIndex, setQuestionIndex] = React.useState(0);
@@ -60,7 +60,7 @@ const App = () => {
       <Answer
         question={question}
         answer={answerValue}
-        isNotRendered={false}
+        isNotRendered={isQuestionsOver}
         onHandleChange={handleAnswerChange}
       />
       <div>

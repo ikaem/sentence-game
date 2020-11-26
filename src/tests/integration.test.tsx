@@ -359,5 +359,8 @@ describe("Application", () => {
     for (let i = 0; i < 4; i++) {
       button.simulate("click");
     }
+
+    const answerComponent = wrapper.find("[data-test='component-answer']");
+    expect(answerComponent.length).toBe(0);
   });
 });

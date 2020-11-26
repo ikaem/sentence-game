@@ -4,7 +4,7 @@ import {
   setAnswerAction,
   ANSWER_TYPE,
   setAnswerActionType,
-} from "../store/actions/answer.actions";
+} from "../store/actions/questions.actions";
 import questionsReducer, {
   initialState,
 } from "../store/reducers/questions.reducer";

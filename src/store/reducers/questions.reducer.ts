@@ -1,6 +1,6 @@
 // src\store\reducers\questions.reducer.ts
 
-import { setAnswerActionType } from "../actions/answer.actions";
+import { setAnswerActionType } from "../actions/questions.actions";
 
 type questionsReducerActionsType = setAnswerActionType;
 export interface QuestionStateObjectInterface {

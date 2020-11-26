@@ -5,7 +5,7 @@ import { shallow } from "enzyme";
 import Answer from "../components/answer.component";
 
 const defaultProps = {
-  question: "what",
+  question: "What?",
 };
 
 const setup = (props = defaultProps, testProps?: any) => {

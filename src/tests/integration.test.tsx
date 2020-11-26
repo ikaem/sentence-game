@@ -53,8 +53,8 @@ describe("Application", () => {
 
     button.simulate("click");
 
-    const testParagraph = wrapper.find("[data-test='test-paragraph']");
-    expect(testParagraph.text()).toBe("what");
+    const label = wrapper.find("label");
+    expect(label.text()).toBe("What?");
   });
 
   test("renders 'when' question when 'Next Question' button clicked second time", () => {
@@ -73,35 +73,10 @@ describe("Application", () => {
 
     button.simulate("click");
 
-    const testParagraph = wrapper.find("[data-test='test-paragraph']");
-    expect(testParagraph.text()).toBe("when");
+    const label = wrapper.find("label");
+    expect(label.text()).toBe("When?");
   });
 
-  test("clicking on 'Next Question' disables Next button AND keeps the question on 'where' when current question index is above 3", () => {
-    let button: ReactWrapper<any, any, React.Component<{}, {}, any>>;
-    const wrapper = setup();
-
-    button = wrapper.findWhere(
-      (element) =>
-        element.type() === "button" &&
-        element.prop("children") === "Next Question"
-    );
-
-    // reaching point before the tested click
-    for (let i = 0; i < 4; i++) {
-      button.simulate("click");
-    }
-
-    button.simulate("click");
-    const testParagraph = wrapper.find("[data-test='test-paragraph']");
-    button = wrapper.findWhere(
-      (element) =>
-        element.type() === "button" &&
-        element.prop("children") === "Next Question"
-    );
-    expect(testParagraph.text()).toBe("where");
-    expect(button.length).toBe(0);
-  });
 
   test("does not render 'Go Back' button when the question index is 0", () => {
     let button: ReactWrapper<any, any, React.Component<{}, {}, any>>;
@@ -114,7 +89,7 @@ describe("Application", () => {
 
     expect(button.length).toBe(0);
   });
-  test("renders 'when' question when 'Go Back' button clicked at question index of 3 (which renders 'where' question)", async () => {
+  test("renders 'When?' question when 'Go Back' button clicked at question index of 3 (which renders 'Where?' question)", async () => {
     let goBackButton: ReactWrapper<any, any, React.Component<{}, {}, any>>;
     let nextQuestionButton: ReactWrapper<
       any,
@@ -141,8 +116,8 @@ describe("Application", () => {
 
     goBackButton.simulate("click");
 
-    const testParagraph = wrapper.find("[data-test='test-paragraph']");
-    expect(testParagraph.text()).toBe("when");
+    const label = wrapper.find("label");
+    expect(label.text()).toBe("When?");
   });
 
   test("renders 'Who?' in the label element of the 'Anwer' component when the 'App's state is 0", () => {

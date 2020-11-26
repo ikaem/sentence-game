@@ -10,6 +10,7 @@ import Sentence from "./components/sentence.component";
 
 import { RootStateType } from "./store/index";
 import assembleSentence from "./helpers/assemble-sentence";
+import formatQuestion from "./helpers/format-question";
 import {
   setAnswerAction,
   newSentenceAction,
@@ -66,10 +67,10 @@ const App = () => {
   };
   return (
     <div data-test="component-app">
-      <p data-test="test-paragraph">{question}</p>
+      {/* <p data-test="test-paragraph">{question}</p> */}
       <Header onStartNewSentence={handleNewSentence} />
       <Answer
-        question={question}
+        question={formatQuestion(question)}
         answer={answerValue}
         isNotRendered={isQuestionsOver}
         onHandleChange={handleAnswerChange}

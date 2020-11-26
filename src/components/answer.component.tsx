@@ -13,16 +13,16 @@ const Answer: React.FC<AnswerProps> = ({
   answer,
   onHandleChange,
 }) => {
-  const formattedQuestion = question[0]
-    .toUpperCase()
-    .concat(question.slice(1))
-    .concat("?");
+  // const formattedQuestion = question[0]
+  //   .toUpperCase()
+  //   .concat(question.slice(1))
+  //   .concat("?");
   if (isNotRendered) return null;
   return (
     <section data-test="component-answer">
       <h2>Answer questions to create your sentence</h2>
       <form onSubmit={(e) => e.preventDefault()}>
-        <label htmlFor="answer">{formattedQuestion}</label>
+        <label htmlFor="answer">{question}</label>
         <input
           type="text"
           id="answer"

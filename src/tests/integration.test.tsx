@@ -363,4 +363,23 @@ describe("Application", () => {
     const answerComponent = wrapper.find("[data-test='component-answer']");
     expect(answerComponent.length).toBe(0);
   });
+  test("resets current sentence when 'New Sentence' button clicked", () => {
+    const wrapper = setup();
+
+    const button = wrapper.findWhere(
+      (element) =>
+        element.type() === "button" &&
+        element.prop("children") === "New Sentence"
+    );
+
+    button.simulate("click");
+
+    const sentenceSpan = wrapper.find("[data-test='sentence-span']");
+    const label = wrapper.find("label");
+    const input = wrapper.find("input");
+
+    expect(sentenceSpan.text()).toBe("");
+    expect(label.text()).toBe("Who?");
+    expect(input.prop("value")).toBe("");
+  });
 });

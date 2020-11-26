@@ -10,7 +10,11 @@ import Sentence from "./components/sentence.component";
 
 import { RootStateType } from "./store/index";
 import assembleSentence from "./helpers/assemble-sentence";
-import { setAnswerAction, ANSWER_TYPE } from "./store/actions/questions.actions";
+import {
+  setAnswerAction,
+  newSentenceAction,
+  ANSWER_TYPE,
+} from "./store/actions/questions.actions";
 
 const App = () => {
   const [questionIndex, setQuestionIndex] = React.useState(0);
@@ -29,6 +33,13 @@ const App = () => {
   }, [questionIndex]);
 
   const dispatch = useDispatch();
+
+  const handleNewSentence = () => {
+    dispatch(newSentenceAction());
+    setQuestionIndex(0);
+    setIsQuestionsOver(false);
+    setAnswerValue("");
+  };
 
   const handleAnswerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -56,7 +67,7 @@ const App = () => {
   return (
     <div data-test="component-app">
       <p data-test="test-paragraph">{question}</p>
-      <Header />
+      <Header onStartNewSentence={handleNewSentence} />
       <Answer
         question={question}
         answer={answerValue}

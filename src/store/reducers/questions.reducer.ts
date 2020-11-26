@@ -1,8 +1,11 @@
 // src\store\reducers\questions.reducer.ts
 
-import { setAnswerActionType } from "../actions/questions.actions";
+import {
+  setAnswerActionType,
+  newSentenceActionType,
+} from "../actions/questions.actions";
 
-type questionsReducerActionsType = setAnswerActionType;
+type questionsReducerActionsType = setAnswerActionType | newSentenceActionType;
 export interface QuestionStateObjectInterface {
   question: string;
   answer: string;
@@ -32,6 +35,8 @@ const questionsReducer = (
   action: questionsReducerActionsType
 ) => {
   switch (action.type) {
+    case "NEW_SENTENCE":
+      return initialState;
     case "WHO":
       const whoState = state.map((question) => {
         if (question.question === "who") {

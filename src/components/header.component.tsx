@@ -1,10 +1,14 @@
 import React from "react";
 
-const Header = () => {
+interface HeaderProps {
+  onStartNewSentence: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onStartNewSentence }) => {
   return (
     <header>
       <h1>Sentence Builder</h1>
-      <button>New Sentence</button>
+      <button onClick={onStartNewSentence}>New Sentence</button>
     </header>
   );
 };

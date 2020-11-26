@@ -21,7 +21,7 @@ const Answer: React.FC<AnswerProps> = ({
   return (
     <section data-test="component-answer">
       <h2>Answer questions to create your sentence</h2>
-      <form>
+      <form onSubmit={(e) => e.preventDefault()}>
         <label htmlFor="answer">{formattedQuestion}</label>
         <input
           type="text"
@@ -29,6 +29,8 @@ const Answer: React.FC<AnswerProps> = ({
           name="answer"
           value={answer}
           onChange={onHandleChange}
+          placeholder={"Please provide an answer"}
+          required
         />
       </form>
     </section>

@@ -1,5 +1,7 @@
 // src\components\answer.component.tsx
 
+import styled from "styled-components";
+
 interface AnswerProps {
   isNotRendered: boolean;
   question: string;
@@ -13,28 +15,53 @@ const Answer: React.FC<AnswerProps> = ({
   answer,
   onHandleChange,
 }) => {
-  // const formattedQuestion = question[0]
-  //   .toUpperCase()
-  //   .concat(question.slice(1))
-  //   .concat("?");
   if (isNotRendered) return null;
   return (
-    <section data-test="component-answer">
-      <h2>Answer questions to create your sentence</h2>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <label htmlFor="answer">{question}</label>
-        <input
-          type="text"
-          id="answer"
-          name="answer"
-          value={answer}
-          onChange={onHandleChange}
-          placeholder={"Please provide an answer"}
-          required
-        />
-      </form>
-    </section>
+    <AnswerStyled>
+      <div data-test="component-answer">
+        <h2>Answer questions to create your sentence</h2>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <label htmlFor="answer">{question}</label>
+          <input
+            type="text"
+            id="answer"
+            name="answer"
+            value={answer}
+            onChange={onHandleChange}
+            placeholder={"An answer, please..."}
+            required
+          />
+        </form>
+      </div>
+    </AnswerStyled>
   );
 };
 
 export default Answer;
+
+const AnswerStyled = styled.section`
+  margin: 1rem 0;
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  form {
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    input {
+      border: 1px solid lightgray;
+      font: inherit;
+      font-size: 1.5rem;
+      padding: 1rem;
+    }
+  }
+`;

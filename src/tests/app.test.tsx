@@ -1,8 +1,8 @@
 // src\tests\app.test.tsx
-// import * as ReactRedux from "react-redux";
+
 import React from "react";
 import { Provider } from "react-redux";
-import { mount, shallow } from "enzyme";
+import { mount } from "enzyme";
 
 import App from "../App";
 

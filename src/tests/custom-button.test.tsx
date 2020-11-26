@@ -2,12 +2,12 @@
 
 import { shallow } from "enzyme";
 
-import DirectionButton from "../components/direction-button.component";
+import CustomButton from "../components/custom-button.component";
 
 const defaultProps = {};
 
 const setup = (props = defaultProps, testProps?: any) => {
-  const wrapper = shallow(<DirectionButton {...props} {...testProps} />);
+  const wrapper = shallow(<CustomButton {...props} {...testProps} />);
   return wrapper;
 };
 
@@ -39,16 +39,16 @@ describe("DirectionButton", () => {
     expect(button.prop("children")).toBe(props.label);
   });
 
-  test("calls 'onNavigateQuestions' prop when button is clicked", () => {
+  test("calls 'onHandleClick' prop when button is clicked", () => {
     const props = {
-      onNavigateQuestions: jest.fn(),
+      onHandleClick: jest.fn(),
     };
 
     const wrapper = setup(defaultProps, props);
     const button = wrapper.find("[data-test='component-direction-button']");
     button.simulate("click");
 
-    expect(props.onNavigateQuestions).toHaveBeenCalledTimes(1);
+    expect(props.onHandleClick).toHaveBeenCalledTimes(1);
   });
 
   test("'Next Question' button is disabled in case of invalid input", () => {
@@ -58,7 +58,6 @@ describe("DirectionButton", () => {
     };
 
     const wrapper = setup(defaultProps, props);
-    // const button = wrapper.find("[data-test='component-direction-button']");
     const button = wrapper.findWhere(
       (element) =>
         element.type() === "button" && element.prop("children") === props.label

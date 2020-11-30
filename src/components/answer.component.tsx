@@ -11,11 +11,35 @@ import styled from "styled-components";
 
 interface AnswerProps {
   isNotRendered: boolean;
+  question: string;
+  answer: string;
+  onHandleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Answer: React.FC<AnswerProps> = ({ isNotRendered }) => {
+const Answer: React.FC<AnswerProps> = ({
+  isNotRendered,
+  question,
+  answer,
+  onHandleChange,
+}) => {
   if (isNotRendered) return null;
-  return <div data-test="component-answer"></div>;
+  return (
+    <div data-test="component-answer">
+      <h2>Answer questions to create your sentence</h2>
+      <form>
+        <label htmlFor="answer">{question}</label>
+        <input
+          type="text"
+          id="answer"
+          name="answer"
+          value={answer}
+          onChange={onHandleChange}
+          placeholder={"An answer, please..."}
+          required
+        />
+      </form>
+    </div>
+  );
 };
 
 // const Answer: React.FC<AnswerProps> = ({

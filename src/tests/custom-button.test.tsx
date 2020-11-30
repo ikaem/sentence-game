@@ -4,10 +4,16 @@ import { shallow } from "enzyme";
 
 import CustomButton from "../components/custom-button.component";
 
-const defaultProps = {};
+const defaultProps = {
+  label: "",
+  isNotRendered: false,
+  onHandleClick: () => {},
+  primaryColor: "",
+  secondaryColor: "",
+};
 
-const setup = (props = defaultProps, testProps?: any) => {
-  const wrapper = shallow(<CustomButton {...props} {...testProps} />);
+const setup = (testProps = defaultProps) => {
+  const wrapper = shallow(<CustomButton {...testProps} />);
   return wrapper;
 };
 
@@ -20,10 +26,11 @@ describe("DirectionButton", () => {
   });
   test("does not render when not needed", () => {
     const props = {
+      ...defaultProps,
       isNotRendered: true,
     };
 
-    const wrapper = setup(defaultProps, props);
+    const wrapper = setup(props);
     const component = wrapper.find("[data-test='component-direction-button']");
 
     expect(component.length).toBe(0);
@@ -31,9 +38,10 @@ describe("DirectionButton", () => {
 
   test("renders label prop as the button label", () => {
     const props = {
+      ...defaultProps,
       label: "Go Back",
     };
-    const wrapper = setup(defaultProps, props);
+    const wrapper = setup(props);
     const button = wrapper.find("[data-test='component-direction-button']");
 
     expect(button.prop("children")).toBe(props.label);
@@ -41,10 +49,11 @@ describe("DirectionButton", () => {
 
   test("calls 'onHandleClick' prop when button is clicked", () => {
     const props = {
+      ...defaultProps,
       onHandleClick: jest.fn(),
     };
 
-    const wrapper = setup(defaultProps, props);
+    const wrapper = setup(props);
     const button = wrapper.find("[data-test='component-direction-button']");
     button.simulate("click");
 
@@ -53,11 +62,12 @@ describe("DirectionButton", () => {
 
   test("'Next Question' button is disabled in case of invalid input", () => {
     const props = {
+      ...defaultProps,
       label: "Next Question",
       isInvalidInput: true,
     };
 
-    const wrapper = setup(defaultProps, props);
+    const wrapper = setup(props);
     const button = wrapper.findWhere(
       (element) =>
         element.type() === "button" && element.prop("children") === props.label

@@ -4,18 +4,12 @@ import { shallow } from "enzyme";
 
 import Answer from "../components/answer.component";
 
-// const defaultProps = {
-//   question: "What?",
-// };
-
 const defaultProps = {
   isNotRendered: false,
+  question: "",
+  answer: "",
+  onHandleChange: (event: React.ChangeEvent<HTMLInputElement>) => {},
 };
-
-// const setup = (testProps?: any) => {
-//   const wrapper = shallow(<Answer {...props} {...testProps} />);
-//   return wrapper;
-// };
 
 const setup = (testProps = defaultProps) => {
   const wrapper = shallow(<Answer {...testProps} />);
@@ -34,39 +28,45 @@ describe("Answer", () => {
       isNotRendered: true,
     };
     const wrapper = setup(props);
-    // const wrapper = shallow(<Answer {...props} />);
     const component = wrapper.find("[data-test='component-answer']");
     expect(component.length).toBe(0);
   });
-  // test("renders 'question' prop correctly", () => {
-  //   const wrapper = setup();
-  //   const label = wrapper.find("label");
-  //   expect(label.text()).toBe("What?");
-  // });
-  // test("passes 'answer' prop to 'input' element corectly", () => {
-  //   const props = {
-  //     answer: "Mark",
-  //   };
-  //   const wrapper = setup(defaultProps, props);
-  //   const input = wrapper.find("input");
+  test("renders 'question' prop correctly", () => {
+    const props = {
+      ...defaultProps,
+      question: "What?",
+    };
+    const wrapper = setup(props);
+    const label = wrapper.find("label");
+    expect(label.text()).toBe("What?");
+  });
+  test("passes 'answer' prop to 'input' element corectly", () => {
+    const props = {
+      ...defaultProps,
+      answer: "plays football",
+    };
+    const wrapper = setup(props);
+    const input = wrapper.find("input");
 
-  //   expect(input.prop("value")).toBe(props.answer);
-  // });
+    expect(input.props().value).toBe(props.answer);
+  });
 
-  // test("calls 'onHandleChange' when typing inside the input", () => {
-  //   const mockEvent = {
-  //     target: {
-  //       value: "Mark",
-  //     },
-  //   };
-  //   const props = {
-  //     onHandleChange: jest.fn(),
-  //   };
+  test("calls 'onHandleChange' when typing inside the input", () => {
+    const mockEvent = {
+      target: {
+        value: "Mark",
+      },
+    };
+    const props = {
+      ...defaultProps,
+      onHandleChange: jest.fn(),
+    };
 
-  //   const wrapper = setup(defaultProps, props);
-  //   const input = wrapper.find("input");
-  //   input.simulate("change", mockEvent);
+    const wrapper = setup(props);
+    const input = wrapper.find("input");
+    input.simulate("change", mockEvent);
 
-  //   expect(props.onHandleChange).toHaveBeenCalledWith(mockEvent);
-  // });
+    expect(props.onHandleChange).toHaveBeenCalledTimes(1);
+    expect(props.onHandleChange).toHaveBeenCalledWith(mockEvent);
+  });
 });

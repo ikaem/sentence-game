@@ -2,40 +2,49 @@
 
 import styled from "styled-components";
 
+// interface AnswerProps {
+//   isNotRendered: boolean;
+//   question: string;
+//   answer: string;
+//   onHandleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+// }
+
 interface AnswerProps {
   isNotRendered: boolean;
-  question: string;
-  answer: string;
-  onHandleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Answer: React.FC<AnswerProps> = ({
-  isNotRendered,
-  question,
-  answer,
-  onHandleChange,
-}) => {
+const Answer: React.FC<AnswerProps> = ({ isNotRendered }) => {
   if (isNotRendered) return null;
-  return (
-    <AnswerStyled>
-      <div data-test="component-answer">
-        <h2>Answer questions to create your sentence</h2>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <label htmlFor="answer">{question}</label>
-          <input
-            type="text"
-            id="answer"
-            name="answer"
-            value={answer}
-            onChange={onHandleChange}
-            placeholder={"An answer, please..."}
-            required
-          />
-        </form>
-      </div>
-    </AnswerStyled>
-  );
+  return <div data-test="component-answer"></div>;
 };
+
+// const Answer: React.FC<AnswerProps> = ({
+//   isNotRendered,
+//   question,
+//   answer,
+//   onHandleChange,
+// }) => {
+//   if (isNotRendered) return null;
+//   return (
+//     <AnswerStyled>
+//       <div data-test="component-answer">
+//         <h2>Answer questions to create your sentence</h2>
+//         <form onSubmit={(e) => e.preventDefault()}>
+//           <label htmlFor="answer">{question}</label>
+//           <input
+//             type="text"
+//             id="answer"
+//             name="answer"
+//             value={answer}
+//             onChange={onHandleChange}
+//             placeholder={"An answer, please..."}
+//             required
+//           />
+//         </form>
+//       </div>
+//     </AnswerStyled>
+//   );
+// };
 
 export default Answer;
 

@@ -54,6 +54,6 @@ describe("Sentence", () => {
     const wrapper = setup(props);
     const elipsis = wrapper.find("[data-test='elipsis-span']");
 
-    expect(elipsis.length).toBe(0);
+    expect(elipsis.length).toBe(1);
   });
 });

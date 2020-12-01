@@ -12,12 +12,19 @@ export type newSentenceActionType = {
 
 const NEW_SENTENCE = "NEW_SENTENCE";
 
-export const setAnswerAction = (
-  type: ANSWER_TYPE,
-  answer: string
-): setAnswerActionType => {
+// export const setAnswerAction = (
+//   type: ANSWER_TYPE,
+//   answer: string
+// ): setAnswerActionType => {
+//   return {
+//     type: type,
+//     payload: answer,
+//   };
+// };
+
+export const setAnswerAction = (type: ANSWER_TYPE, answer: string) => {
   return {
-    type: type,
+    type,
     payload: answer,
   };
 };

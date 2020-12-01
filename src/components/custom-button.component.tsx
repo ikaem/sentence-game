@@ -21,33 +21,9 @@ interface CustomButtonProps {
   secondaryColor: string;
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({
-  isNotRendered,
-  label,
-  onHandleClick,
-  isInvalidInput,
-  primaryColor,
-  secondaryColor,
-}) => {
-  if (isNotRendered) return null;
-  return (
-    <div>
-      <button
-        data-test="component-direction-button"
-        onClick={onHandleClick}
-        disabled={isInvalidInput}
-      >
-        {label}
-      </button>
-    </div>
-  );
-};
-
-export default CustomButton;
-
 // const CustomButton: React.FC<CustomButtonProps> = ({
-//   label,
 //   isNotRendered,
+//   label,
 //   onHandleClick,
 //   isInvalidInput,
 //   primaryColor,
@@ -55,10 +31,7 @@ export default CustomButton;
 // }) => {
 //   if (isNotRendered) return null;
 //   return (
-//     <CustomButtonStyled
-//       primaryColor={primaryColor}
-//       secondaryColor={secondaryColor}
-//     >
+//     <div>
 //       <button
 //         data-test="component-direction-button"
 //         onClick={onHandleClick}
@@ -66,11 +39,38 @@ export default CustomButton;
 //       >
 //         {label}
 //       </button>
-//     </CustomButtonStyled>
+//     </div>
 //   );
 // };
 
 // export default CustomButton;
+
+const CustomButton: React.FC<CustomButtonProps> = ({
+  label,
+  isNotRendered,
+  onHandleClick,
+  isInvalidInput,
+  primaryColor,
+  secondaryColor,
+}) => {
+  if (isNotRendered) return null;
+  return (
+    <CustomButtonStyled
+      primaryColor={primaryColor}
+      secondaryColor={secondaryColor}
+    >
+      <button
+        data-test="component-direction-button"
+        onClick={onHandleClick}
+        disabled={isInvalidInput}
+      >
+        {label}
+      </button>
+    </CustomButtonStyled>
+  );
+};
+
+export default CustomButton;
 
 const CustomButtonStyled = styled.div<{
   primaryColor: string;

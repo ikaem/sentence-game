@@ -21,94 +21,105 @@ import {
 } from "./store/actions/questions.actions";
 
 const App = () => {
-  const [questionIndex, setQuestionIndex] = React.useState(0);
-  const [isQuestionsOver, setIsQuestionsOver] = React.useState(false);
-  const [answerValue, setAnswerValue] = React.useState("");
-
-  const { question, answer } = useSelector((state: RootStateType) => {
-    return state.questions[questionIndex];
-  });
-  const sentence = useSelector((state: RootStateType) => {
-    return assembleSentence(state.questions);
-  });
-
-  React.useEffect(() => {
-    setAnswerValue(answer);
-  }, [questionIndex, answer]);
-
-  const dispatch = useDispatch();
-
-  const handleNewSentence = () => {
-    dispatch(newSentenceAction());
-    setQuestionIndex(0);
-    setIsQuestionsOver(false);
-    setAnswerValue("");
-  };
-
-  const handleAnswerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setAnswerValue(value);
-  };
-
-  const handleIncrementQuestion = () => {
-    dispatch(
-      setAnswerAction(question.toUpperCase() as ANSWER_TYPE, answerValue)
-    );
-
-    if (questionIndex >= 3) {
-      setIsQuestionsOver(true);
-      setAnswerValue("");
-    } else {
-      setQuestionIndex((prevState) => prevState + 1);
-    }
-  };
-
-  const handleDecrementQuestion = () => {
-    if (questionIndex <= 0) return;
-    if (isQuestionsOver && questionIndex >= 3) return setIsQuestionsOver(false);
-
-    setIsQuestionsOver(false);
-    setQuestionIndex((prevState) => prevState - 1);
-  };
+  const question = useSelector(
+    (state: RootStateType) => state.questions[0].question
+  );
   return (
-    <Layout>
-      <AppStyled>
-        <div data-test="component-app">
-          <Header
-            onStartNewSentence={handleNewSentence}
-            label={"New Sentence"}
-            primaryColor={colors.red}
-            secondaryColor={"white"}
-          />
-          <Answer
-            question={formatQuestion(question)}
-            answer={answerValue}
-            isNotRendered={isQuestionsOver}
-            onHandleChange={handleAnswerChange}
-          />
-          <div className="actions-container">
-            <CustomButton
-              label={"Next Question"}
-              isNotRendered={isQuestionsOver}
-              isInvalidInput={!answerValue}
-              onHandleClick={handleIncrementQuestion}
-              primaryColor={colors.purple}
-              secondaryColor={"white"}
-            />
-            <CustomButton
-              label={"Go Back"}
-              isNotRendered={questionIndex <= 0}
-              onHandleClick={handleDecrementQuestion}
-              primaryColor={colors.lightGray}
-              secondaryColor={colors.purple}
-            />
-          </div>
-          <Sentence sentence={sentence} isNotComplete={!isQuestionsOver} />
-        </div>
-      </AppStyled>
-    </Layout>
+    <div data-test="component-app">
+      <span data-test="test-span">{formatQuestion(question)}</span>
+    </div>
   );
 };
+
+// const App = () => {
+//   const [questionIndex, setQuestionIndex] = React.useState(0);
+//   const [isQuestionsOver, setIsQuestionsOver] = React.useState(false);
+//   const [answerValue, setAnswerValue] = React.useState("");
+
+//   const { question, answer } = useSelector((state: RootStateType) => {
+//     return state.questions[questionIndex];
+//   });
+//   const sentence = useSelector((state: RootStateType) => {
+//     return assembleSentence(state.questions);
+//   });
+
+//   React.useEffect(() => {
+//     setAnswerValue(answer);
+//   }, [questionIndex, answer]);
+
+//   const dispatch = useDispatch();
+
+//   const handleNewSentence = () => {
+//     dispatch(newSentenceAction());
+//     setQuestionIndex(0);
+//     setIsQuestionsOver(false);
+//     setAnswerValue("");
+//   };
+
+//   const handleAnswerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+//     const { value } = event.target;
+//     setAnswerValue(value);
+//   };
+
+//   const handleIncrementQuestion = () => {
+//     dispatch(
+//       setAnswerAction(question.toUpperCase() as ANSWER_TYPE, answerValue)
+//     );
+
+//     if (questionIndex >= 3) {
+//       setIsQuestionsOver(true);
+//       setAnswerValue("");
+//     } else {
+//       setQuestionIndex((prevState) => prevState + 1);
+//     }
+//   };
+
+//   const handleDecrementQuestion = () => {
+//     if (questionIndex <= 0) return;
+//     if (isQuestionsOver && questionIndex >= 3) return setIsQuestionsOver(false);
+
+//     setIsQuestionsOver(false);
+//     setQuestionIndex((prevState) => prevState - 1);
+//   };
+//   return (
+//     <Layout>
+//       <AppStyled>
+//         <div data-test="component-app">
+//           <Header
+//             onStartNewSentence={handleNewSentence}
+//             label={"New Sentence"}
+//             primaryColor={colors.red}
+//             secondaryColor={"white"}
+//           />
+//           <Answer
+//             question={formatQuestion(question)}
+//             answer={answerValue}
+//             isNotRendered={isQuestionsOver}
+//             onHandleChange={handleAnswerChange}
+//           />
+//           <div className="actions-container">
+//             <CustomButton
+//               label={"Next Question"}
+//               isNotRendered={isQuestionsOver}
+//               isInvalidInput={!answerValue}
+//               onHandleClick={handleIncrementQuestion}
+//               primaryColor={colors.purple}
+//               secondaryColor={"white"}
+//             />
+//             <CustomButton
+//               label={"Go Back"}
+//               isNotRendered={questionIndex <= 0}
+//               onHandleClick={handleDecrementQuestion}
+//               primaryColor={colors.lightGray}
+//               secondaryColor={colors.purple}
+//             />
+//           </div>
+//           <Sentence sentence={sentence} isNotComplete={!isQuestionsOver} />
+//         </div>
+//       </AppStyled>
+//     </Layout>
+//   );
+// };
 
 export default App;
 

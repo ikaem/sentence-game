@@ -1,4 +1,4 @@
-// D:\WebDev\Ja\thinkeasy\sentence-game\src\index.tsx
+// src\index.tsx
 
 import React from "react";
 import ReactDOM from "react-dom";

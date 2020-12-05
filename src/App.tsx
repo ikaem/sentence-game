@@ -19,13 +19,39 @@ import {
   newSentenceAction,
   ANSWER_TYPE,
 } from "./store/actions/questions.actions";
+import questionsReducer from "./store/reducers/questions.reducer";
 
 const App = () => {
+  const [questionIndex, setQuestionIndex] = React.useState(0);
+
   const question = useSelector(
-    (state: RootStateType) => state.questions[0].question
+    (state: RootStateType) => state.questions[questionIndex].question
   );
+
+  const handleIncrementQuestion = () => {
+    // do nothing if questionIndex is >= 3
+    if (questionIndex >= 3) return;
+    // increment question index by one
+    setQuestionIndex((prevState) => prevState + 1);
+  };
   return (
     <div data-test="component-app">
+      <Answer
+        question={formatQuestion(question)}
+        answer={""}
+        isNotRendered={false}
+        onHandleChange={() => {}}
+      />
+      <CustomButton
+        label={"Next Question"}
+        isNotRendered={false}
+        isInvalidInput={false}
+        onHandleClick={handleIncrementQuestion}
+        primaryColor={"purple"}
+        secondaryColor={"white"}
+      />
+
+      {/* test span */}
       <span data-test="test-span">{formatQuestion(question)}</span>
     </div>
   );

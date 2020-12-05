@@ -29,9 +29,9 @@ describe("'App' component", () => {
     expect(component.length).toBe(1);
   });
 
-  test("renders current question", () => {
-    const wrapper = setup();
-    const testSpan = wrapper.find("[data-test='test-span']");
-    expect(testSpan.props().children).toBe("Who?");
-  });
+  // test("renders current question", () => {
+  //   const wrapper = setup();
+  //   const testSpan = wrapper.find("[data-test='test-span']");
+  //   expect(testSpan.props().children).toBe("Who?");
+  // });
 });

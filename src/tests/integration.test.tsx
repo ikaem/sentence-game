@@ -8,6 +8,7 @@ import App from "../App";
 import { storeFactory } from "../../testing/test-utils";
 import { QuestionStateObjectInterface } from "../store/reducers/questions.reducer";
 import assembleSentence from "../helpers/assemble-sentence";
+import { resolve } from "url";
 
 const setup = (initialState?: QuestionStateObjectInterface[]) => {
   initialState = initialState ?? [
@@ -38,7 +39,75 @@ const setup = (initialState?: QuestionStateObjectInterface[]) => {
 };
 
 describe("Application", () => {
-  test("example", () => {});
+  describe("renders in 'Answer' component", () => {
+    test("renders 'What' when 'Next Question' button clicked first time", async () => {
+      const wrapper = setup();
+      const button = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" &&
+          element.prop("children") === "Next Question"
+      );
+      button.simulate("click");
+
+      const label = wrapper.find("label");
+      expect(label.text()).toBe("What?");
+    });
+
+    test("renders 'When' when 'Next Question' button clicked second time", () => {
+      const wrapper = setup();
+      const button = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" &&
+          element.prop("children") === "Next Question"
+      );
+
+      for (let i = 0; i < 1; i++) {
+        button.simulate("click");
+      }
+
+      // action button click that we are focusing on
+      button.simulate("click");
+
+      const label = wrapper.find("label");
+      expect(label.text()).toBe("When?");
+    });
+
+    test("renders 'Where?' when 'Next Question' is clicked 3 or more times", () => {
+      let label: ReactWrapper<
+        HTMLAttributes,
+        any,
+        React.Component<{}, {}, any>
+      >;
+
+      const wrapper = setup();
+
+      const button = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" &&
+          element.prop("children") === "Next Question"
+      );
+
+      for (let i = 0; i < 3; i++) {
+        button.simulate("click");
+      }
+
+      // assign found 'label' element to the "label" variable
+      label = wrapper.find("label");
+
+      // first assertion to check if label has just rendered "Where?"
+      expect(label.text()).toBe("Where?");
+
+      // one more button click
+      button.simulate("click");
+
+      // re-assign found 'label' element to the "label" variable to have fresh UI
+      label = wrapper.find("label");
+
+      // assert that label is still "Where?"
+      expect(label.text()).toBe("Where?");
+    });
+  });
+
   // let useState = React.useState;
 
   // afterEach(() => {

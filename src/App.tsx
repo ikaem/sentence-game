@@ -34,6 +34,11 @@ const App = () => {
     // increment question index by one
     setQuestionIndex((prevState) => prevState + 1);
   };
+
+  const handleDecrementQuestion = () => {
+    if (questionIndex <= 0) return;
+    setQuestionIndex((prevState) => prevState - 1);
+  };
   return (
     <div data-test="component-app">
       <Answer
@@ -49,6 +54,14 @@ const App = () => {
         onHandleClick={handleIncrementQuestion}
         primaryColor={"purple"}
         secondaryColor={"white"}
+      />
+
+      <CustomButton
+        label={"Go Back"}
+        isNotRendered={false}
+        onHandleClick={handleDecrementQuestion}
+        primaryColor={colors.lightGray}
+        secondaryColor={colors.purple}
       />
 
       {/* test span */}

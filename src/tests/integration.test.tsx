@@ -106,6 +106,65 @@ describe("Application", () => {
       // assert that label is still "Where?"
       expect(label.text()).toBe("Where?");
     });
+
+    test("renders 'When?' after 'Go Back' button is clicked when current question is 'Where?'", () => {
+      let backButton: ReactWrapper<
+        HTMLAttributes,
+        any,
+        React.Component<{}, {}, any>
+      >;
+
+      let nextButton: ReactWrapper<
+        HTMLAttributes,
+        any,
+        React.Component<{}, {}, any>
+      >;
+
+      let label: ReactWrapper<
+        HTMLAttributes,
+        any,
+        React.Component<{}, {}, any>
+      >;
+
+      const wrapper = setup();
+
+      nextButton = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" &&
+          element.prop("children") === "Next Question"
+      );
+
+      for (let i = 0; i < 3; i++) {
+        nextButton.simulate("click");
+      }
+
+      backButton = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" && element.prop("children") === "Go Back"
+      );
+
+      backButton.simulate("click");
+
+      label = wrapper.find("label");
+
+      expect(label.text()).toBe("When?");
+    });
+
+    test("renders 'Who?' when 'Go Back' button is clicked while current question is 'Who?'", () => {
+      const wrapper = setup();
+
+      const button = wrapper.findWhere((element) => {
+        return (
+          element.type() === "button" && element.prop("children") === "Go Back"
+        );
+      });
+
+      button.simulate("click");
+
+      const label = wrapper.find("label");
+
+      expect(label.text()).toBe("Who?");
+    });
   });
 
   // let useState = React.useState;

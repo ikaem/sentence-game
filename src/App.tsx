@@ -33,12 +33,30 @@ const App = () => {
     assembleSentence(state.questions)
   );
 
+  const dispatch = useDispatch();
+
   React.useEffect(() => {
     setAnswerValue(answer);
   }, [questionIndex, answer]);
 
+  const handleNewSentence = () => {
+    dispatch(newSentenceAction());
+    setQuestionIndex(0);
+    setIsQuestionsOver(false);
+    setAnswerValue("");
+  };
+
+  const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
+    setAnswerValue(value);
+  };
+
   const handleIncrementQuestion = () => {
-    // TODO: submit answer to current question
+    // submit answer to current question to Redux
+    dispatch(
+      setAnswerAction(question.toUpperCase() as ANSWER_TYPE, answerValue)
+    );
 
     // questions are over when questionIndex is >= 3
     if (questionIndex >= 3) {
@@ -57,11 +75,17 @@ const App = () => {
   };
   return (
     <div data-test="component-app">
+      <Header
+        onStartNewSentence={handleNewSentence}
+        label={"New Sentence"}
+        primaryColor={colors.red}
+        secondaryColor={"white"}
+      />
       <Answer
         question={formatQuestion(question)}
         answer={answerValue}
         isNotRendered={isQuestionsOver}
-        onHandleChange={() => {}}
+        onHandleChange={handleAnswerChange}
       />
       <CustomButton
         label={"Next Question"}

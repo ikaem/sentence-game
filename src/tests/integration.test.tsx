@@ -380,8 +380,79 @@ describe("Application", () => {
       const ellipsisSpan = wrapper.find("[data-test='elipsis-span']");
       expect(ellipsisSpan.length).toBe(0);
     });
-  });
 
+    test("renders input submission in the 'Sentence' component", () => {
+      // create mock event object
+      const mockEvent = {
+        target: {
+          value: "Mark",
+        },
+      };
+
+      // create empty preloaded Redux state
+      const preloadedState = [
+        {
+          question: "who",
+          answer: "",
+        },
+        {
+          question: "what",
+          answer: "",
+        },
+        {
+          question: "when",
+          answer: "",
+        },
+        {
+          question: "where",
+          answer: "",
+        },
+      ];
+
+      const wrapper = setup(preloadedState);
+
+      // select input element
+      const input = wrapper.find("input");
+
+      // change event on input element
+      input.simulate("change", mockEvent);
+
+      // select 'Next Question' button
+      const button = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" &&
+          element.prop("children") === "Next Question"
+      );
+
+      // simulate button click to submit answer to Redux
+      button.simulate("click");
+
+      // select sentence span
+      const sentenceSpan = wrapper.find("[data-test='sentence-span']");
+
+      // assert that the sentence span contains our input value
+      expect(sentenceSpan.text()).toContain(mockEvent.target.value);
+    });
+
+    test("resets sentence when 'New Sentence' button is clicked", () => {
+      const wrapper = setup();
+      const button = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" &&
+          element.prop("children") === "New Sentence"
+      );
+
+      button.simulate("click");
+
+      const sentenceSpan = wrapper.find("[data-test='sentence-span']");
+      const label = wrapper.find("label");
+      const input = wrapper.find("input");
+
+      expect(sentenceSpan.text()).toBe("");
+      expect(label.text()).toBe("Who?");
+      expect(input.prop("value")).toBe("");
+    });
+  });
 
   // let useState = React.useState;
 

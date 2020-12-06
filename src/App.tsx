@@ -24,10 +24,15 @@ import questionsReducer from "./store/reducers/questions.reducer";
 const App = () => {
   const [questionIndex, setQuestionIndex] = React.useState(0);
   const [isQuestionsOver, setIsQuestionsOver] = React.useState(false);
+  const [answerValue, setAnswerValue] = React.useState("");
 
   const { question, answer } = useSelector(
     (state: RootStateType) => state.questions[questionIndex]
   );
+
+  React.useEffect(() => {
+    setAnswerValue(answer);
+  }, [questionIndex, answer]);
 
   const handleIncrementQuestion = () => {
     // TODO: submit answer to current question
@@ -43,20 +48,22 @@ const App = () => {
 
   const handleDecrementQuestion = () => {
     if (questionIndex <= 0) return;
+    if (questionIndex === 3 && isQuestionsOver)
+      return setIsQuestionsOver(false);
     setQuestionIndex((prevState) => prevState - 1);
   };
   return (
     <div data-test="component-app">
       <Answer
         question={formatQuestion(question)}
-        answer={answer}
+        answer={answerValue}
         isNotRendered={isQuestionsOver}
         onHandleChange={() => {}}
       />
       <CustomButton
         label={"Next Question"}
-        isNotRendered={false}
-        isInvalidInput={false}
+        isNotRendered={isQuestionsOver}
+        isInvalidInput={!answerValue}
         onHandleClick={handleIncrementQuestion}
         primaryColor={"purple"}
         secondaryColor={"white"}
@@ -64,7 +71,7 @@ const App = () => {
 
       <CustomButton
         label={"Go Back"}
-        isNotRendered={false}
+        isNotRendered={!questionIndex}
         onHandleClick={handleDecrementQuestion}
         primaryColor={colors.lightGray}
         secondaryColor={colors.purple}

@@ -150,18 +150,30 @@ describe("Application", () => {
       expect(label.text()).toBe("When?");
     });
 
-    test("renders 'Who?' when 'Go Back' button is clicked while current question is 'Who?'", () => {
+    test("renders 'What?' when 'Go Back' button is clicked while current question is 'When?'", () => {
       const wrapper = setup();
-      const button = wrapper.findWhere((element) => {
+
+      const nextButton = wrapper.findWhere((element) => {
+        return (
+          element.type() === "button" &&
+          element.prop("children") === "Next Question"
+        );
+      });
+
+      for (let i = 0; i < 2; i++) {
+        nextButton.simulate("click");
+      }
+
+      const backButton = wrapper.findWhere((element) => {
         return (
           element.type() === "button" && element.prop("children") === "Go Back"
         );
       });
 
-      button.simulate("click");
+      backButton.simulate("click");
 
       const label = wrapper.find("label");
-      expect(label.text()).toBe("Who?");
+      expect(label.text()).toBe("What?");
     });
 
     test("renders answers from Redux store successfully", () => {
@@ -201,6 +213,110 @@ describe("Application", () => {
 
       // assert that the component does not render
       expect(answerComponent.length).toBe(0);
+    });
+
+    test("does render when returning to the last question", () => {
+      const wrapper = setup();
+
+      const nextButton = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" &&
+          element.prop("children") === "Next Question"
+      );
+
+      for (let i = 0; i < 4; i++) {
+        nextButton.simulate("click");
+      }
+
+      const backButton = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" && element.prop("children") === "Go Back"
+      );
+
+      backButton.simulate("click");
+
+      const answerComponent = wrapper.find("[data-test='component-answer']");
+      const label = wrapper.find("label");
+
+      expect(answerComponent.length).toBe(1);
+      expect(label.text()).toBe("Where?");
+    });
+  });
+
+  describe("integrates 'CustomButton' component, which", () => {
+    test("does not render 'Go Back' button when current question is 'Who?'", () => {
+      const wrapper = setup();
+
+      // select the button
+      const button = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" && element.prop("children") === "Go Back"
+      );
+
+      // assert that there is no button
+      expect(button.length).toBe(0);
+    });
+
+    test("does not render 'Next Question' button when final answer is submitted", () => {
+      let button: ReactWrapper<any, any, React.Component<{}, {}, any>>;
+
+      const wrapper = setup();
+
+      // select the button
+      button = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" &&
+          element.prop("children") === "Next Question"
+      );
+
+      // loop button clicks
+
+      for (let i = 0; i < 4; i++) {
+        button.simulate("click");
+      }
+
+      // select the button again
+      button = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" &&
+          element.prop("children") === "Next Question"
+      );
+
+      // assert that the button is not there...
+      expect(button.length).toBe(0);
+    });
+
+    test("disables the 'Next Question' button when answer input is invalid", () => {
+      // prepare preloaded state with empty 'answer' strings
+      const preloadedState = [
+        {
+          question: "who",
+          answer: "",
+        },
+        {
+          question: "what",
+          answer: "",
+        },
+        {
+          question: "when",
+          answer: "",
+        },
+        {
+          question: "where",
+          answer: "",
+        },
+      ];
+      const wrapper = setup(preloadedState);
+
+      // select the button
+      const button = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" &&
+          element.prop("children") === "Next Question"
+      );
+
+      // assert that 'disabled' prop on the button is true
+      expect(button.prop("disabled")).toBe(true);
     });
   });
 

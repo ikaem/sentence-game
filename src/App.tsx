@@ -23,14 +23,20 @@ import questionsReducer from "./store/reducers/questions.reducer";
 
 const App = () => {
   const [questionIndex, setQuestionIndex] = React.useState(0);
+  const [isQuestionsOver, setIsQuestionsOver] = React.useState(false);
 
-  const question = useSelector(
-    (state: RootStateType) => state.questions[questionIndex].question
+  const { question, answer } = useSelector(
+    (state: RootStateType) => state.questions[questionIndex]
   );
 
   const handleIncrementQuestion = () => {
-    // do nothing if questionIndex is >= 3
-    if (questionIndex >= 3) return;
+    // TODO: submit answer to current question
+
+    // questions are over when questionIndex is >= 3
+    if (questionIndex >= 3) {
+      setIsQuestionsOver(true);
+      return;
+    }
     // increment question index by one
     setQuestionIndex((prevState) => prevState + 1);
   };
@@ -43,8 +49,8 @@ const App = () => {
     <div data-test="component-app">
       <Answer
         question={formatQuestion(question)}
-        answer={""}
-        isNotRendered={false}
+        answer={answer}
+        isNotRendered={isQuestionsOver}
         onHandleChange={() => {}}
       />
       <CustomButton

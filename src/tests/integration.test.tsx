@@ -72,40 +72,40 @@ describe("Application", () => {
       expect(label.text()).toBe("When?");
     });
 
-    test("renders 'Where?' when 'Next Question' is clicked 3 or more times", () => {
-      let label: ReactWrapper<
-        HTMLAttributes,
-        any,
-        React.Component<{}, {}, any>
-      >;
+    // test("renders 'Where?' when 'Next Question' is clicked 3 or more times", () => {
+    //   let label: ReactWrapper<
+    //     HTMLAttributes,
+    //     any,
+    //     React.Component<{}, {}, any>
+    //   >;
 
-      const wrapper = setup();
+    //   const wrapper = setup();
 
-      const button = wrapper.findWhere(
-        (element) =>
-          element.type() === "button" &&
-          element.prop("children") === "Next Question"
-      );
+    //   const button = wrapper.findWhere(
+    //     (element) =>
+    //       element.type() === "button" &&
+    //       element.prop("children") === "Next Question"
+    //   );
 
-      for (let i = 0; i < 3; i++) {
-        button.simulate("click");
-      }
+    //   for (let i = 0; i < 3; i++) {
+    //     button.simulate("click");
+    //   }
 
-      // assign found 'label' element to the "label" variable
-      label = wrapper.find("label");
+    //   // assign found 'label' element to the "label" variable
+    //   label = wrapper.find("label");
 
-      // first assertion to check if label has just rendered "Where?"
-      expect(label.text()).toBe("Where?");
+    //   // first assertion to check if label has just rendered "Where?"
+    //   expect(label.text()).toBe("Where?");
 
-      // one more button click
-      button.simulate("click");
+    //   // one more button click
+    //   button.simulate("click");
 
-      // re-assign found 'label' element to the "label" variable to have fresh UI
-      label = wrapper.find("label");
+    //   // re-assign found 'label' element to the "label" variable to have fresh UI
+    //   label = wrapper.find("label");
 
-      // assert that label is still "Where?"
-      expect(label.text()).toBe("Where?");
-    });
+    //   // assert that label is still "Where?"
+    //   expect(label.text()).toBe("Where?");
+    // });
 
     test("renders 'When?' after 'Go Back' button is clicked when current question is 'Where?'", () => {
       let backButton: ReactWrapper<
@@ -152,7 +152,6 @@ describe("Application", () => {
 
     test("renders 'Who?' when 'Go Back' button is clicked while current question is 'Who?'", () => {
       const wrapper = setup();
-
       const button = wrapper.findWhere((element) => {
         return (
           element.type() === "button" && element.prop("children") === "Go Back"
@@ -162,8 +161,46 @@ describe("Application", () => {
       button.simulate("click");
 
       const label = wrapper.find("label");
-
       expect(label.text()).toBe("Who?");
+    });
+
+    test("renders answers from Redux store successfully", () => {
+      // create wrapper
+      const wrapper = setup();
+
+      // select input
+      const input = wrapper.find("input");
+
+      // assert that value of the input is "Mark"
+      expect(input.prop("value")).toBe("Mark");
+    });
+
+    test("does not render when final question has been submitted", () => {
+      let answerComponent: ReactWrapper<
+        HTMLAttributes,
+        any,
+        React.Component<{}, {}, any>
+      >;
+      const wrapper = setup();
+
+      const button = wrapper.findWhere(
+        (element) =>
+          element.type() === "button" &&
+          element.prop("children") === "Next Question"
+      );
+
+      // clicks to reach the final question
+      for (let i = 0; i < 3; i++) {
+        button.simulate("click");
+      }
+
+      // click to submit the last answer
+      button.simulate("click");
+
+      answerComponent = wrapper.find("[data-test='component-answer']");
+
+      // assert that the component does not render
+      expect(answerComponent.length).toBe(0);
     });
   });
 

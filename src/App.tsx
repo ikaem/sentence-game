@@ -29,6 +29,9 @@ const App = () => {
   const { question, answer } = useSelector(
     (state: RootStateType) => state.questions[questionIndex]
   );
+  const sentence = useSelector((state: RootStateType) =>
+    assembleSentence(state.questions)
+  );
 
   React.useEffect(() => {
     setAnswerValue(answer);
@@ -76,6 +79,8 @@ const App = () => {
         primaryColor={colors.lightGray}
         secondaryColor={colors.purple}
       />
+
+      <Sentence sentence={sentence} isNotComplete={!isQuestionsOver} />
 
       {/* test span */}
       <span data-test="test-span">{formatQuestion(question)}</span>

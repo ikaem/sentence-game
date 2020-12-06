@@ -9,6 +9,7 @@ import { storeFactory } from "../../testing/test-utils";
 import { QuestionStateObjectInterface } from "../store/reducers/questions.reducer";
 import assembleSentence from "../helpers/assemble-sentence";
 import { resolve } from "url";
+import Sentence from "../components/sentence.component";
 
 const setup = (initialState?: QuestionStateObjectInterface[]) => {
   initialState = initialState ?? [
@@ -319,6 +320,68 @@ describe("Application", () => {
       expect(button.prop("disabled")).toBe(true);
     });
   });
+
+  describe("integrates 'Sentence' component, which", () => {
+    // extract original useState hook
+    const originalUseState = React.useState;
+
+    afterEach(() => {
+      // reset original useState hook after each test in this suite
+      React.useState = originalUseState;
+    });
+
+    test("renders a sentence out of currently available answers", () => {
+      const preloadedState = [
+        {
+          question: "who",
+          answer: "Mark",
+        },
+        {
+          question: "what",
+          answer: "jumps",
+        },
+        {
+          question: "when",
+          answer: "all day long",
+        },
+        {
+          question: "where",
+          answer: "in his head",
+        },
+      ];
+      const expectedSentence = assembleSentence(preloadedState);
+
+      const wrapper = setup(preloadedState);
+
+      const sentenceSpan = wrapper.find("[data-test='sentence-span']");
+      expect(sentenceSpan.text()).toContain(expectedSentence);
+    });
+
+    test("renders an ellipsis when the sentence is not finished", () => {
+      const wrapper = setup();
+
+      const ellipsisSpan = wrapper.find("[data-test='elipsis-span']");
+
+      expect(ellipsisSpan.length).toBe(1);
+      expect(ellipsisSpan.text()).toContain("...");
+    });
+
+    test("does not render an ellipsis when the sentence is finished", () => {
+      const mockUseState = jest
+        .fn()
+        .mockReturnValueOnce([3, jest.fn()])
+        .mockReturnValueOnce([true, jest.fn()])
+        .mockReturnValueOnce(["", jest.fn()]);
+
+      React.useState = mockUseState;
+
+      const wrapper = setup();
+
+      const ellipsisSpan = wrapper.find("[data-test='elipsis-span']");
+      expect(ellipsisSpan.length).toBe(0);
+    });
+  });
+
 
   // let useState = React.useState;
 
